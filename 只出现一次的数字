@@ -1,0 +1,95 @@
+
+  public int singleNumber(int[] nums) {
+    Node[] map = new Node[nums.length];
+    for (int num : nums) {
+      if (contains(map, num)) {
+        remove(map, num);
+      } else {
+        put(map, num, 1);
+      }
+    }
+    for (Node node : map) {
+      if (node != null && node.value == 1) {
+        return node.key;
+      }
+    }
+    throw new java.util.NoSuchElementException();
+  }
+
+  private void put(Node[] map, int key, int value) {
+    int pos = hash(key, map.length);
+    Node node = map[pos];
+    if (node == null) {
+      node = map[pos] = new Node();
+      node.key = key;
+      node.value = value;
+    } else {
+      while (true) {
+        if (node.key == key) {
+          node.value = value;
+          break;
+        } else if (node.next == null) {
+          Node newNode = new Node();
+          newNode.key = key;
+          newNode.value = value;
+          node.next = newNode;
+          break;
+        }
+        node = node.next;
+      }
+    }
+  }
+
+  private boolean contains(Node[] map, int key) {
+    int pos = hash(key, map.length);
+    Node node = map[pos];
+    if (node == null) {
+      return false;
+    }
+
+    while (true) {
+      if (node.key == key) {
+        return true;
+      } else if (node.next == null) {
+        return false;
+      } else {
+        node = node.next;
+      }
+    }
+  }
+
+  private void remove(Node[] map, int key) {
+    int pos = hash(key, map.length);
+    Node node = map[pos];
+    if (node == null) {
+      return;
+    }
+    if (node.key == key) {
+      map[pos] = node.next;
+    }
+
+    Node t = node;
+
+    while (true) {
+      if (t.key == key) {
+        node.next = t.next;
+        break;
+      } else if (node.next != null) {
+        node = t;
+        t = node.next;
+      } else {
+        break;
+      }
+    }
+  }
+
+  private int hash(int key, int size) {
+    int h = Integer.hashCode(key);
+    return (h ^ (h >>> 16)) & (size - 1);
+  }
+
+  private static class Node {
+    int key;
+    int value;
+    Node next;
+  }
