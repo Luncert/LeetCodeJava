@@ -3,7 +3,7 @@ class Solution {
     if (k > nums.length) {
       k %= nums.length;
     }
-    if (k == 0 || k == nums.length) {
+    if (k == 0) {
       return;
     }
     int step = k;
