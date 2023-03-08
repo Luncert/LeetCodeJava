@@ -1,0 +1,12 @@
+
+  public int removeDuplicates(int[] nums) {
+    int skip = 0;
+    for (int i = 1, j; i < nums.length; i++) {
+      j = i - skip;
+      nums[i - skip] = nums[i];
+      if (nums[j] == nums[j - 1]) {
+        skip++;
+      }
+    }
+    return nums.length - skip;
+  }
