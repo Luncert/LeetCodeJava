@@ -28,3 +28,37 @@ class Solution {
     System.arraycopy(copy, 0, nums, start, n);
   }
 }
+
+class Solution {
+    
+
+  public void rotate(int[] nums, int k) {
+    rotate(nums, 0, nums.length, k);
+  }
+
+  private void rotate(int[] nums, int start, int len, int k) {
+    if (k > len) {
+      k %= len;
+    }
+    if (k == 0 || k == len) {
+      return;
+    }
+
+    int step = k;
+    while (step < len) {
+      for (int i = 0, j = step; i < k; i++, j = (j + 1) % len) {
+        int tmp = nums[start + j];
+        nums[start + j] = nums[start + i];
+        nums[start + i] = tmp;
+      }
+      step += k;
+    }
+
+    int n = len % k;
+    if (n == 0) {
+      return;
+    }
+    int k1 = k % n;
+    rotate(nums, start + k - n, n, k1);
+  }
+}
