@@ -63,6 +63,7 @@ class Solution {
   }
 }
 
+// 临时数组
 class Solution {
     
   public void rotate(int[] nums, int k) {
@@ -71,5 +72,33 @@ class Solution {
       tmp[(i + k) % nums.length] = nums[i];
     }
     System.arraycopy(tmp, 0, nums, 0, nums.length);
+  }
+}
+
+// 反转
+class Solution {
+    
+  public void rotate(int[] nums, int k) {
+        if (k > nums.length) {
+        k %= nums.length;
+        }
+    if (k == 0 || k == nums.length) {
+        return;
+    }
+      invert(nums, 0, nums.length);
+      invert(nums, 0, k);
+      invert(nums, k, nums.length - k);
+  }
+
+  private void invert(int[] nums, int start, int len) {
+      for (int i = start, j = start + len - 1; i < j; i++, j--) {
+          exchange(nums, i, j);
+      }
+  }
+
+  private void exchange(int[] nums, int i, int j) {
+      int tmp = nums[i];
+      nums[i] = nums[j];
+      nums[j] = tmp;
   }
 }
