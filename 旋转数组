@@ -102,3 +102,32 @@ class Solution {
       nums[j] = tmp;
   }
 }
+
+class Solution {
+    
+  public void rotate(int[] nums, int k) {
+    int origin, target = 0, extraSlot = nums[0];
+    boolean[] visited = new boolean[nums.length];
+    while (true) {
+      origin = target;
+      target = (origin + k) % nums.length;
+      if (visited[target]) {
+        int i = 0;
+        while (i < nums.length && visited[(target + i) % nums.length]) {
+          i++;
+        }
+        target = (target + i) % nums.length;
+        if (visited[target]) {
+          break; // all visited
+        }
+        extraSlot = nums[target];
+        continue;
+      } else {
+        visited[target] = true;
+      }
+      int tmp = nums[target];
+      nums[target] = extraSlot;
+      extraSlot = tmp;
+    }
+  }
+}
