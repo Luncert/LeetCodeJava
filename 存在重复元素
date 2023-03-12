@@ -1,3 +1,4 @@
+// 排序
 class Solution {
     public boolean containsDuplicate(int[] nums) {
         Arrays.sort(nums);
@@ -10,6 +11,7 @@ class Solution {
     }
 }
 
+// hashset
 class Solution {
     public boolean containsDuplicate(int[] nums) {
         Set<Integer> s = new HashSet();
@@ -22,6 +24,7 @@ class Solution {
     }
 }
 
+// hashset, 单元素grow
 class Solution {
     
   public boolean containsDuplicate(int[] nums) {
@@ -46,6 +49,7 @@ class Solution {
   }
 }
 
+// hashset，双倍长度grow
 class Solution {
     
   public boolean containsDuplicate(int[] nums) {
@@ -77,6 +81,7 @@ class Solution {
   }
 }
 
+// hashset，取余算地址
 class Solution {
     
   public boolean containsDuplicate(int[] nums) {
