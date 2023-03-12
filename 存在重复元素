@@ -45,3 +45,34 @@ class Solution {
     return false;
   }
 }
+
+class Solution {
+    
+  public boolean containsDuplicate(int[] nums) {
+    int[][] table = new int[nums.length][];
+    for (int num : nums) {
+      int p = (num ^ (num >>> 16)) & (nums.length - 1);
+      if (table[p] == null) {
+        table[p] = new int[]{1, num}; // fist element means last element's idx
+      } else {
+        int[] arrayInSameSlot = table[p];
+        for (int i = 1; i <= arrayInSameSlot[0]; i++) {
+          if (arrayInSameSlot[i] == num) {
+            return true;
+          }
+        }
+        if (arrayInSameSlot[0] + 1 < arrayInSameSlot.length) {
+          arrayInSameSlot[++arrayInSameSlot[0]] = num;
+        } else {
+          // extend
+          int[] tmp = new int[arrayInSameSlot.length * 2];
+          System.arraycopy(arrayInSameSlot, 0, tmp, 0, arrayInSameSlot.length);
+          // add number
+          tmp[++tmp[0]] = num;
+          table[p] = tmp;
+        }
+      }
+    }
+    return false;
+  }
+}
