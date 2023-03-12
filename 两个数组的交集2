@@ -19,3 +19,34 @@ class Solution {
     return Arrays.copyOfRange(nums2, 0, idx);
   }
 }
+
+// 用map value低8位存nums1重复次数，高8位存nums2重复次数
+class Solution {
+    
+  public int[] intersect(int[] nums1, int[] nums2) {
+    Map<Integer, Integer> map = new HashMap<>();
+    for (int num : nums1) {
+      map.compute(num, (k, v) -> v == null ? 1 : v + 1);
+    }
+    for (int num : nums2) {
+      map.compute(num, (k, v) -> (v == null ? (1 << 8) : v + (1 << 8)));
+    }
+    int size = 0;
+    Set<Map.Entry<Integer, Integer>> entries = map.entrySet();
+    for (Map.Entry<Integer, Integer> entry : entries) {
+      int right = entry.getValue() & 0xFF;
+      int left = (entry.getValue() & 0xFF00) >> 8;
+      int count = Math.min(left, right);
+      size += count;
+      entry.setValue(count);
+    }
+    int[] result = new int[size];
+    int idx = 0;
+    for (Map.Entry<Integer, Integer> entry : entries) {
+      for (int i = 0; i < entry.getValue(); i++) {
+        result[idx++] = entry.getKey();
+      }
+    }
+    return result;
+  }
+}
