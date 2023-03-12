@@ -1,0 +1,23 @@
+
+class Solution {
+  public int[] plusOne(int[] digits) {
+    int inc = 0;
+    digits[digits.length - 1]++;
+    for (int i = digits.length - 1; i >= 0; i--) {
+      digits[i] += inc;
+      if (digits[i] > 9) {
+        inc = digits[i] % 9;
+        digits[i] = 0;
+      } else {
+        inc = 0;
+      }
+    }
+    if (inc > 0) {
+      int[] tmp = new int[digits.length + 1];
+      tmp[0] = inc;
+      System.arraycopy(digits, 0, tmp, 1, digits.length);
+      return tmp;
+    }
+    return digits;
+  }
+}
