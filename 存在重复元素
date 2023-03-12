@@ -76,3 +76,39 @@ class Solution {
     return false;
   }
 }
+
+class Solution {
+    
+  public boolean containsDuplicate(int[] nums) {
+    int[] table = new int[nums.length];
+    int count0 = 0;
+    for (int num : nums) {
+      if (num == 0) {
+        count0++;
+        if (count0 == 2) {
+          return true;
+        }
+      } else {
+        int p = num % nums.length;
+        if (p < 0) {
+          p += nums.length;
+        }
+        int i = 0;
+        while (true) {
+          if (i == nums.length) {
+            throw new IllegalStateException();
+          }
+          if (table[p] == 0) {
+            table[p] = num;
+            break;
+          } else if (table[p] == num) {
+            return true;
+          }
+          p = (p + 1) % nums.length;
+          i++;
+        }
+      }
+    }
+    return false;
+  }
+}
