@@ -21,3 +21,27 @@ class Solution {
         return false;
     }
 }
+
+class Solution {
+    
+  public boolean containsDuplicate(int[] nums) {
+    int[][] table = new int[nums.length][];
+    for (int num : nums) {
+      int p = (num ^ (num >>> 16)) & (nums.length - 1);
+      if (table[p] == null) {
+        table[p] = new int[]{num};
+      } else {
+        for (int tableNum : table[p]) {
+          if (tableNum == num) {
+            return true;
+          }
+        }
+        int[] tmp = new int[table[p].length + 1];
+        System.arraycopy(table[p], 0, tmp, 0, table[p].length);
+        tmp[tmp.length - 1] = num;
+        table[p] = tmp;
+      }
+    }
+    return false;
+  }
+}
