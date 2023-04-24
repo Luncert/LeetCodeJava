@@ -1,0 +1,53 @@
+//给你一个字符串 s ，找出它的所有子串并按字典序排列，返回排在最后的那个子串。 
+//
+// 
+//
+// 示例 1： 
+//
+// 
+//输入：s = "abab"
+//输出："bab"
+//解释：我们可以找出 7 个子串 ["a", "ab", "aba", "abab", "b", "ba", "bab"]。按字典序排在最后的子串是 
+//"bab"。
+// 
+//
+// 示例 2： 
+//
+// 
+//输入：s = "leetcode"
+//输出："tcode"
+// 
+//
+// 
+//
+// 提示： 
+//
+// 
+// 1 <= s.length <= 4 * 10⁵ 
+// s 仅含有小写英文字符。 
+// 
+//
+// Related Topics 双指针 字符串 👍 136 👎 0
+
+import java.util.Set;
+import java.util.List;
+import java.util.HashSet;
+import java.util.stream.Collectors;
+
+//leetcode submit region begin(Prohibit modification and deletion)
+class Solution {
+    public String lastSubstring(String s) {
+        Set<String> set = new HashSet<>();
+        for (int i = 0, j = s.length(); i < j; i++, j--) {
+            for (int n = i; n < j; n++) {
+                set.add(s.substring(n, j));
+            }
+            for (int n = j; n > i; n--) {
+                set.add(s.substring(i, n));
+            }
+        }
+        List<String> sorted = set.stream().sorted().collect(Collectors.toList());
+        return sorted.get(sorted.size() - 1);
+    }
+}
+//leetcode submit region end(Prohibit modification and deletion)
