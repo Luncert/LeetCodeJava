@@ -1,0 +1,20 @@
+class Solution {
+    public int distributeCandies(int[] candyType) {
+        int n = candyType.length / 2;
+        BitSet set = new BitSet();
+        int setSize = 0;
+        for (int candy : candyType) {
+            if (candy < 0) {
+                candy = -candy + 10000;
+            }
+            if (!set.get(candy)) {
+                set.set(candy);
+                setSize++;
+                if (setSize == n) {
+                    return n;
+                }
+            }
+        }
+        return setSize;
+    }
+}
