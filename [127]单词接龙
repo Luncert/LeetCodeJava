@@ -1,0 +1,61 @@
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        int minStep = wordList.size() + 1;
+        if (diff(beginWord, endWord) == 1) {
+            return 2;
+        }
+
+        TreeNode tree = new TreeNode(-1);
+        TreeNode node = tree;
+        String w = beginWord;
+        for (int i = 0; i < wordList.size(); i++) {
+            if (diff(w, wordList.get(i)) <= 1) {
+                node.add(i);
+
+            }
+        }
+
+
+
+
+        for (int i = 0; i < wordList.size(); i++) {
+            int diff1 = diff(beginWord, wordList.get(i));
+            if (diff1 <= 1) {
+                int step = diff1;
+                
+                int inc = i < endPos ? 1 : -1;
+                for (int j = i + inc; j != endPos; j += inc) {
+                    int diff2 = diff(wordList.get(j), endWord);
+                    if (diff2 <= 1) {
+                        minStep = Math.min(minStep, (j - i) * inc + diff1 + diff2 + 1);
+                        break;
+                    }
+                }
+            }
+        }
+        return minStep == wordList.size() ? 0 : minStep;
+    }
+
+    private int diff(String a, String b) {
+        int diff = 0;
+        for (int i = 0; i < a.length(); i++) {
+            diff += a.charAt(i) == b.charAt(i) ? 0 : 1;
+        }
+        return diff;
+    }
+
+    private static class TreeNode {
+        int v;
+        List<TreeNode> children = new ArrayList<>();
+
+        TreeNode(int v) {
+            this.v = v;
+        }
+
+        TreeNode add(int v) {
+            TreeNode child = new TreeNode(v);
+            children.add(child);
+            return child;
+        }
+    }
+}
