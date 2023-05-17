@@ -52,3 +52,19 @@ class Solution {
         return true;
     }
 }
+
+class Solution {
+    public int numTimesAllBlue(int[] flips) {
+        for (int i = 0; i < flips; i++) {
+            int bit = flips[i] - 1;
+            if (bit > i) {
+                // add bit to minHeap
+            }
+            // get min from minHeap
+            // if min <= i then remove
+            // until min > i
+            // if minHeap.size == 0
+            // then count
+        }
+    }
+}
