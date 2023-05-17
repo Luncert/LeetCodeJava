@@ -1,10 +1,10 @@
 class Solution {
-    private final int WORD_CAP = 32;
-    private int WORD_MAX_VALUE = 0;
+    private final int WORD_CAP = 64;
+    private long WORD_MAX_VALUE = 0; // 补码是-1
 
     public int numTimesAllBlue(int[] flips) {
         for (int i = 0; i < WORD_CAP; i++) {
-            WORD_MAX_VALUE |= 1 << i;
+            WORD_MAX_VALUE |= 1L << i; // 1 << i 和 1L << i结果不同，因为溢出的时机不同
         }
 
         int count = 0;
@@ -13,7 +13,7 @@ class Solution {
         for (int i = 0; i < flips.length; i++) {
             int bit = flips[i] - 1;
             int wordIndex = bit / WORD_CAP;
-            bits[wordIndex] |= 1 << (bit % WORD_CAP);
+            bits[wordIndex] |= 1L << (bit % WORD_CAP);
             if (hasSamePrefix(bits, i)) {
                 count++;
             }
@@ -31,7 +31,7 @@ class Solution {
         }
         long word = bits[wordIndex];
         for (int j = 0; j <= step % WORD_CAP; j++) {
-            if ((word & (1 << j)) == 0) {
+            if ((word & (1L << j)) == 0) {
                 return false;
             }
         }
