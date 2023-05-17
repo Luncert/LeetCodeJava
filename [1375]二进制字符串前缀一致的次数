@@ -1,0 +1,40 @@
+class Solution {
+    private final int WORD_CAP = 32;
+    private int WORD_MAX_VALUE = 0;
+
+    public int numTimesAllBlue(int[] flips) {
+        for (int i = 0; i < WORD_CAP; i++) {
+            WORD_MAX_VALUE |= 1 << i;
+        }
+
+        int count = 0;
+        long[] bits = new long[flips.length / WORD_CAP + 1];
+
+        for (int i = 0; i < flips.length; i++) {
+            int bit = flips[i] - 1;
+            int wordIndex = bit / WORD_CAP;
+            bits[wordIndex] |= 1 << (bit % WORD_CAP);
+            if (hasSamePrefix(bits, i)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private boolean hasSamePrefix(long[] bits, int step) {
+        int wordIndex = step / WORD_CAP;
+        for (int j = 0; j < wordIndex; j++) {
+            if (bits[j] != WORD_MAX_VALUE) {
+                return false;
+            }
+        }
+        long word = bits[wordIndex];
+        for (int j = 0; j <= step % WORD_CAP; j++) {
+            if ((word & (1 << j)) == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
