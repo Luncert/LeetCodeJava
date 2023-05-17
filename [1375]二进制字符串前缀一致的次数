@@ -1,3 +1,4 @@
+// BitSet实现
 class Solution {
     private final int WORD_CAP = 64;
     private long WORD_MAX_VALUE = 0; // 补码是-1
@@ -9,13 +10,26 @@ class Solution {
 
         int count = 0;
         long[] bits = new long[flips.length / WORD_CAP + 1];
-
+        boolean lastMatched = false;
         for (int i = 0; i < flips.length; i++) {
             int bit = flips[i] - 1;
             int wordIndex = bit / WORD_CAP;
             bits[wordIndex] |= 1L << (bit % WORD_CAP);
+
+            // bit必须小于等于i才可能match
+            if (bit > i) {
+                lastMatched = false;
+                continue;
+            } else if (lastMatched) {
+                count++;
+                continue;
+            }
+
             if (hasSamePrefix(bits, i)) {
                 count++;
+                lastMatched = true;
+            } else {
+                lastMatched = false;
             }
         }
 
