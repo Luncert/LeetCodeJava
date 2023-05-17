@@ -68,3 +68,96 @@ class Solution {
         }
     }
 }
+
+// min heap
+class Solution {
+    public int numTimesAllBlue(int[] flips) {
+        int count = 0;
+        Heap heap = new Heap();
+        for (int i = 0; i < flips.length; i++) {
+            int bit = flips[i] - 1;
+            if (bit > i) {
+                // add bit to minHeap
+                heap.insert(bit);
+            }
+            if (heap.size() > 0) {
+                int min = heap.get(0);
+                while (heap.size() > 0 && min <= i) {
+                    heap.remove(0);
+                    min = heap.get(0);
+                }
+            }
+            if (heap.size() == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+class Heap {
+
+    int size;
+    int[] data;
+
+    public Heap() {
+        data = new int[16];
+    }
+
+    private void ensureCapacity() {
+        if (size + 1 >= data.length) {
+            int[] tmp = new int[data.length + (data.length >>> 1)]; // 1.5
+            System.arraycopy(data, 0, tmp, 0, size);
+            data = tmp;
+        }
+    }
+
+    public void insert(int node) {
+        ensureCapacity();
+        data[size] = node;
+        percolateUp(size++);
+    }
+
+    private void percolateUp(int i) {
+        int parent = (i - 1) / 2;
+        while (i > 0 && percolatePart(parent, i)) {
+            i = parent;
+            parent = (i - 1) / 2;
+        }
+    }
+
+    private void percolateDown(int i) {
+        int lc = i * 2 + 1, rc = i * 2 + 2;
+        if (lc < size && percolatePart(i, lc))
+            percolateDown(lc);
+        if (rc < size && percolatePart(i, rc))
+            percolateDown(rc);
+    }
+
+    private boolean percolatePart(int p, int c) {
+        int r = Integer.compare(data[p], data[c]);
+        if (r > 0) {
+            int tmp = data[p];
+            data[p] = data[c];
+            data[c] = tmp;
+            return true;
+        }
+        return false;
+    }
+
+    public int get(int i) {
+        return data[i];
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public int remove(int i) {
+        int node = data[i];
+        data[i] = data[--size];
+        data[size] = -1;
+        percolateDown(i);
+        return node;
+    }
+}
